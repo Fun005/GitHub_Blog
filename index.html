@@ -51,7 +51,7 @@
 		  <h1 class="header-author"><a href="/">智妍一生推</a></h1>
 		</hgroup>
 		
-		<p class="header-subtitle">这里应该有一句很装逼的个性签名</p>
+		<p class="header-subtitle">我的失眠开始于每天和你说晚安</p>
 		
 
 		<nav class="header-menu">
@@ -68,7 +68,7 @@
 		<nav class="header-smart-menu">
     		
     			
-    			<a q-on="click: openSlider(e, 'innerArchive')" href="javascript:void(0)">所有文章</a>
+    			<a q-on="click: openSlider(e, 'innerArchive')" href="javascript:void(0)">我最帅</a>
     			
             
     			
@@ -113,7 +113,7 @@
 			  <h1 class="header-author js-header-author">智妍一生推</h1>
 			</hgroup>
 			
-			<p class="header-subtitle"><i class="icon icon-quo-left"></i>这里应该有一句很装逼的个性签名<i class="icon icon-quo-right"></i></p>
+			<p class="header-subtitle"><i class="icon icon-quo-left"></i>我的失眠开始于每天和你说晚安<i class="icon icon-quo-right"></i></p>
 			
 			
 			
@@ -163,6 +163,74 @@
           </div>
           <div id="js-content" class="content-ll">
             
+  
+    <article id="title-每日总结" class="article article-type-title  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/03/07/每日总结/">每日总结</a>
+    </h1>
+  
+
+        
+        <a href="/2017/03/07/每日总结/" class="archive-article-date">
+  	<time datetime="2017-03-07T11:24:06.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-03-07</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="1-写在前面"><a href="#1-写在前面" class="headerlink" title="1 写在前面"></a>1 写在前面</h2><p>最近公司任务比较多，随之而来的“疑难杂症”也变多，有点点烦。</p>
+<h2 id="2-工作相关"><a href="#2-工作相关" class="headerlink" title="2 工作相关"></a>2 工作相关</h2><ol>
+<li>今天做的是注册登录界面的部署，从本地部署到生产环境。怎么说，难度不大，但由于是大姑娘上花轿—头一回，所以还是有点新鲜。</li>
+<li>上午还是顺风顺水，一路没什么问题。到了中午快下班的时候，意想不到的问题发生了。由于部署到生产环境要对文件结构进行改动，因此产生了跨模块访问资源的问题，在非公共资源模块的CSS里访问公共资源模块会报错。具体来说是图标字体设置，<code>background:url()</code>,url的路径怎么设置都不对，访问不到。搞了一下午都没解决，后来发现控制台报的是<code>status code:500</code>,组长看了后和我说是服务器的问题。其实一开始也注意到了这个，还去bing了几次，没找到什么有价值的答案，想着会不会是跨域请求的原因。这个问题还是没有解决，明天再看。</li>
+<li>上面这个问题衍生出来一个知识点：<code>background</code>和<code>background-iamge</code>的关系，具体来说后者就是前者的细化，可以只用<code>background</code>再加具体属性。推荐这种方式，因为对浏览器比较友好。</li>
+</ol>
+<h2 id="3"><a href="#3" class="headerlink" title="3"></a>3</h2><p>由于最近公司业务较多，博客的升级进度会没那么快，慢慢来吧。但是争取每天一篇文章。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">work</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/03/07/每日总结/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
   
     <article id="post-博客待解决问题" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
@@ -486,7 +554,7 @@
     
     
       
-      <li style="width: 33.333333333333336%" q-on="click: openSlider(e, 'innerArchive')"><a href="javascript:void(0)" q-class="active:innerArchive">所有文章</a></li>
+      <li style="width: 33.333333333333336%" q-on="click: openSlider(e, 'innerArchive')"><a href="javascript:void(0)" q-class="active:innerArchive">我最帅</a></li>
       
         
       
@@ -515,15 +583,19 @@
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">start</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">blog</a>
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">work</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">test</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">start</a>
               </li>
             
             <div class="clearfix"></div>
@@ -575,7 +647,7 @@
         <ul class="search-ul">
           
             <li class="search-li">
-              <a href="http://localhost:4000/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>友情链接1</a>
+              <a href="https://dreamer-somebody.github.io" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>立娃的博客</a>
             </li>
           
             <li class="search-li">
