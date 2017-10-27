@@ -270,6 +270,408 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/10/27/浅谈Ajax请求的contentType/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Tc">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="我是TcV587">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/10/27/浅谈Ajax请求的contentType/" itemprop="url">
+                  浅谈Ajax请求的contentType
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-27T22:34:40+08:00">
+                2017-10-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/10/27/浅谈Ajax请求的contentType/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/10/27/浅谈Ajax请求的contentType/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <blockquote>
+<p>在今天开发的过程中，遇到一个问题，困扰了我半天。还什么问题能为难到英明伟岸阳光乐观积极开朗的Tc？哼，不怕告诉你，多的去了。。。<br>ok，开场尬演之后，我们进入正题。没错，这次我们要讨论的，是ajax请求里的contentType。<br>什么是contentType，它是用来干嘛的，怎么用，下面将一层一层脱下它的内啊呸，外衣！</p>
+</blockquote>
+<h1 id="1-什么是contentType"><a href="#1-什么是contentType" class="headerlink" title="1. 什么是contentType"></a>1. 什么是contentType</h1><p>在介绍contentType之前，要先说说ajax请求。（这里就不科普ajax正确读音了，和wifi一样，顺口就行）</p>
+<blockquote>
+<h2 id="Ajax"><a href="#Ajax" class="headerlink" title="Ajax"></a><strong>Ajax</strong></h2><p>（异步JavaScript和XML）Asynchronous JavaScript + XML, 其本身不是一种新技术，而是一个在 2005年被Jesse James Garrett提出的新术语，用来描述一种使用现有技术集合的‘新’方法, 包括: HTML or XHTML, Cascading Style Sheets, JavaScript, The Document Object Model, XML, XSLT, 以及最重要的 XMLHttpRequest object.当使用结合了这些技术的AJAX模型以后， 网页程序能够逐步快速地将更新呈现在用户界面上，不需要重载（刷新）整个页面。这使得程序能够更快地回应用户的操作。——form <a href="https://developer.mozilla.org/zh-CN/docs/AJAX" target="_blank" rel="external">MDN Web Docs</a></p>
+</blockquote>
+<p>简单点说，就是使用 XMLHttpRequest 对象与服务器通信。 它可以使用JSON，XML，HTML和文本等多种格式发送和接收。AJAX最吸引人的就是它的“异步”特性，也就是说他可以在不重新刷新页面的情况下与服务器通信，交换数据，更新页面。</p>
+<h1 id="2-Ajax能干什么"><a href="#2-Ajax能干什么" class="headerlink" title="2. Ajax能干什么"></a>2. Ajax能干什么</h1><p>你可以使用AJAX最主要的两个特性做下列事：</p>
+<blockquote>
+<p>1.在不重新加载页面的情况下发送请求给服务器。<br>2.接受并使用从服务器发来的数据。</p>
+</blockquote>
+<p>OK,这里不深入讨论ajax了，有兴趣的老铁可以去<a href="https://developer.mozilla.org/zh-CN/docs/AJAX/Getting_Started" target="_blank" rel="external">MDN</a> 进行深入学习了解。</p>
+<h1 id="3-Ajax请求参数介绍"><a href="#3-Ajax请求参数介绍" class="headerlink" title="3. Ajax请求参数介绍"></a>3. Ajax请求参数介绍</h1><p>接下来正式介绍ajax请求所需参数：</p>
+<blockquote>
+<ol>
+<li><p><code>url</code>:<br>要求为String类型的参数，（默认为当前页地址）发送请求的地址。</p>
+</li>
+<li><p><code>type</code>:<br>要求为String类型的参数，请求方式（post或get）默认为get。注意其他http请求方法，例如put和delete也可以使用，但有部分浏览器不支持。</p>
+</li>
+<li><p><code>data</code>:<br>要求为Object或String类型的参数，发送到服务器的数据。如果已经不是字符串，将自动转换为字符串格式。get请求中将附加在url后。防止这种自动转换，可以查看下面的<code>processData</code>选项。对象必须为<code>key/value</code>格式，例如<code>{foo1:&quot;bar1&quot;,foo2:&quot;bar2&quot;}</code>转换为<code>&amp;foo1=bar1&amp;foo2=bar2</code>。如果是数组，JQuery将自动为不同值对应同一个名称。例如<code>{foo:[&quot;bar1&quot;,&quot;bar2&quot;]}</code>转换为<code>&amp;foo=bar1&amp;foo=bar2</code>。</p>
+</li>
+<li><p><code>timeout</code>:<br>要求为Number类型的参数，设置请求超时时间（毫秒）。此设置将覆盖$.ajaxSetup()方法的全局设置。</p>
+</li>
+<li><p><code>async</code>:<br>要求为Boolean类型的参数，默认设置为true，所有请求均为异步请求。如果需要发送同步请求，请将此选项设置为false。注意，同步请求将锁住浏览器，用户其他操作必须等待请求完成才可以执行。</p>
+</li>
+<li><p><code>cache</code>:<br>要求为Boolean类型的参数，默认为true（当dataType为script时，默认为false），设置为false将不会从浏览器缓存中加载请求信息。</p>
+</li>
+<li><p><code>dataType</code>:<br>要求为String类型的参数，预期服务器返回的数据类型。如果不指定，JQuery将自动根据http包mime信息返回responseXML或responseText，并作为回调函数参数传递。可用的类型如下：<br><code>xml</code>：返回XML文档，可用JQuery处理。<br><code>html</code>：返回纯文本HTML信息；包含的script标签会在插入DOM时执行。<br><code>script</code>：返回纯文本JavaScript代码。不会自动缓存结果。除非设置了cache参数。注意在远程请求时（不在同一个域下），所有post请求都将转为get请求。<br><code>json</code>：返回JSON数据。<br><code>jsonp</code>：JSONP格式。使用SONP形式调用函数时，例如myurl?callback=?，JQuery将自动替换后一个“?”为正确的函数名，以执行回调函数。<br><code>text</code>：返回纯文本字符串。</p>
+</li>
+<li><p><code>beforeSend</code>：<br>要求为Function类型的参数，发送请求前可以修改<code>XMLHttpRequest</code>对象的函数，例如添加自定义HTTP头。在<code>beforeSend</code>中如果返回false可以取消本次ajax请求。<code>XMLHttpRequest</code>对象是惟一的参数        function(XMLHttpRequest){</p>
+<pre><code>    this;   //调用本次ajax请求时传递的options参数
+}
+</code></pre></li>
+<li><p><code>complete</code>：<br>要求为Function类型的参数，请求完成后调用的回调函数（请求成功或失败时均调用）。参数：<code>XMLHttpRequest</code>对象和一个描述成功请求类型的字符串。</p>
+<pre><code>function(XMLHttpRequest, textStatus){
+   this;    //调用本次ajax请求时传递的options参数
+}
+</code></pre></li>
+<li><p><code>success</code>：<br>要求为Function类型的参数，请求成功后调用的回调函数，有两个参数。</p>
+<pre><code>(1)由服务器返回，并根据dataType参数进行处理后的数据。
+(2)描述状态的字符串。
+function(data, textStatus){
+   //data可能是xmlDoc、jsonObj、html、text等等
+   this;  //调用本次ajax请求时传递的options参数
+}
+</code></pre></li>
+<li><p><code>error</code>: 要求为Function类型的参数，请求失败时被调用的函数。该函数有3个参数，即XMLHttpRequest对象、错误信息、捕获的错误对象(可选)。ajax事件函数如下：<br>  function(XMLHttpRequest, textStatus, errorThrown){</p>
+<pre><code>//通常情况下textStatus和errorThrown只有其中一个包含信息
+this;   //调用本次ajax请求时传递的options参数
+</code></pre><p>  }</p>
+</li>
+<li><p><code>contentType</code>： 要求为String类型的参数，当发送信息至服务器时，内容编码类型默认为<code>&quot;application/x-www-form-urlencoded&quot;</code>。该默认值适合大多数应用场合。</p>
+</li>
+<li><p><code>dataFilter</code>：<br>要求为Function类型的参数，给Ajax返回的原始数据进行预处理的函数。提供data和type两个参数。data是Ajax返回的原始数据，type是调用jQuery.ajax时提供的dataType参数。函数返回的值将由jQuery进一步处理。</p>
+<pre><code>function(data, type){
+    //返回处理后的数据
+    return data;
+}
+</code></pre></li>
+<li><p><code>dataFilter</code>：<br>要求为Function类型的参数，给Ajax返回的原始数据进行预处理的函数。提供data和type两个参数。<code>data</code>是Ajax返回的原始数据，<code>type</code>是调用jQuery.ajax时提供的<code>dataType</code>参数。函数返回的值将由jQuery进一步处理。</p>
+<pre><code>function(data, type){
+    //返回处理后的数据
+    return data;
+}
+</code></pre></li>
+<li><p><code>global</code>：<br>要求为Boolean类型的参数，默认为true。表示是否触发全局ajax事件。设置为false将不会触发全局ajax事件，<code>ajaxStart</code>或<code>ajaxStop</code>可用于控制各种ajax事件。</p>
+</li>
+<li><p><code>ifModified</code>：<br>要求为Boolean类型的参数，默认为false。仅在服务器数据改变时获取新数据。服务器数据改变判断的依据是Last-Modified头信息。默认值是false，即忽略头信息。</p>
+</li>
+<li><p><code>jsonp</code>：<br>要求为String类型的参数，在一个jsonp请求中重写回调函数的名字。该值用来替代在<code>&quot;callback=?&quot;</code>这种GET或POST请求中URL参数里的”callback”部分，例如<code>{jsonp:&#39;onJsonPLoad&#39;}</code>会导致将<code>&quot;onJsonPLoad=?&quot;</code>传给服务器。</p>
+</li>
+<li><p><code>username</code>：<br>要求为String类型的参数，用于响应HTTP访问认证请求的用户名。</p>
+</li>
+<li><p><code>password</code>：<br>要求为String类型的参数，用于响应HTTP访问认证请求的密码。</p>
+</li>
+<li><p><code>processData</code>： 要求为Boolean类型的参数，默认为true。默认情况下，发送的数据将被转换为对象（从技术角度来讲并非字符串）以配合默认内容类型<code>&quot;application/x-www-form-urlencoded&quot;</code>。如果要发送DOM树信息或者其他不希望转换的信息，请设置为false。</p>
+</li>
+<li><p><code>scriptCharset</code>： 要求为String类型的参数，只有当请求时dataType为”jsonp”或者”script”，并且type是GET时才会用于强制修改字符集(charset)。通常在本地和远程的内容编码不同时使用。</p>
+</li>
+</ol>
+</blockquote>
+<p>OK,赋值粘贴也是挺累的。<br>看完上面这些东西，相信你也已经睡着了。那么现在我们来个实际例子提提神。<br>我今天遇到的情况，是这样的。<br>我要提交一个请求，需要传的参数是这样的：</p>
+<pre><code>var perParams = {
+    &quot;appId&quot;: app_id,
+    &quot;pes&quot;: thisArr
+};
+</code></pre><p>其中thisArr是一个数组对象，格式如下：</p>
+<pre><code>[
+    {
+    &quot;faceId&quot;: &quot;RECHARGE.GET_PHONE_NO_PROVINCE&quot;,
+    &quot;funCode&quot;: &quot;*&quot;
+    },
+    {
+    &quot;faceId&quot;: &quot;RECHARGE.GET_PHONE_NO_PROVINCE&quot;,
+    &quot;funCode&quot;: &quot;PAYEASY222&quot;
+    }
+]
+</code></pre><p>也就是说，总的参数，应该是下面这个样子的：</p>
+<pre><code>{
+    &quot;appId&quot;: &quot;F0AE8FFE78CE41C7B1A19E7CEF442A15&quot;,
+    &quot;pes&quot;: [
+        {
+        &quot;faceId&quot;: &quot;RECHARGE.GET_PHONE_NO_PROVINCE&quot;,
+        &quot;funCode&quot;: &quot;*&quot;
+        },
+        {
+        &quot;faceId&quot;: &quot;RECHARGE.GET_PHONE_NO_PROVINCE&quot;,
+        &quot;funCode&quot;: &quot;PAYEASY222&quot;
+        }
+    ]
+}
+</code></pre><p>共有两个参数，整个参数是一个复杂对象，对象嵌数组。<br>那么问题来了，在http 请求中，get 和 post 是最常用的。在 jquery 的 ajax 中， contentType都是默认的值：<code>application/x-www-form-urlencoded</code>，这种格式的特点就是，name/value 成为一组，每组之间用 &amp; 联接，而 name与value 则是使用 = 连接。如： <code>www.qq.com/q?key=abc&amp;value=123</code>这是get , 而 post 请求则是使用请求体，参数不在 url 中，在请求体中的参数表现形式也是<code>key=abc&amp;value=123</code>的形式。一般情况下这样是没什么问题的，因为参数结构简单，没有嵌套：</p>
+<pre><code>{
+    a:1,
+    b:2,
+    c:3
+}
+</code></pre><p>而我们上面要传的不是简单的JSON结构而是下面这种复杂的结构：</p>
+<pre><code>{
+      param1: value1,
+      param2:  [
+        {x: 1,y:2},
+        {x: 3,y:4}
+     ]
+}
+</code></pre><p>这个复杂对象， application/x-www-form-urlencoded 这种形式是没有办法将复杂的 JSON 组织成键值对形式(当然也有方案这点可以<a href="https://stackoverflow.com/questions/6243051/how-to-pass-an-array-within-a-query-string" target="_blank" rel="external">参考</a> ) ,你传进去可以发送请求，但是服务端收到数据为空， 因为 ajax 没有办法知道怎样处理这个数据。<br><img src="leanote://file/getImage?fileId=59f3228aab6441174c001f28" alt="传到后台的参数"><br>如果图片挂了，看这里：</p>
+<pre><code>{
+    param1:value1,
+    param2[0][x]:1,
+    param2[0][y]:2,
+    param2[1][x]:3,
+    param2[1][y]:4,
+}
+</code></pre><p>发现没有，本来的一个JSON对象两个参数，变成了不伦不类的多个参数，那该怎么办？</p>
+<hr>
+<p>这个时候，我们发现http还可以自定义数据类型。上面也介绍了，ajax的contentType是设置的http的请求头，这个头的目的是告诉服务器端，我的请求参数是什么格式的数据，你要按照对应的格式去处理。<br>而默认的请求头是 <code>&quot;application/x-www-form-urlencoded;charset=UTF-8&quot;</code>，也就是普通的表单提交的格式。它是不支持复杂json字符串的。如果需要后台成功接受并解析我们的参数，我们可以采用可以解析json格式的请求头，即<code>&quot;application/json&quot;</code>,这样服务端可以直接拿到一个json请求参数，而不是一个一个的key value。<br>那么事情也就简单了，只需要在ajax请求里把contentType设置成：<code>&#39;application/json&#39;</code>，然后把参数用<code>JSON.stringify()</code>格式化，就可以正常传到后台并接受啦。</p>
+<hr>
+<p>问题又来了，为什么要把参数用<code>JSON.stringify()</code>格式化呢。先说说<code>JSON.stringify()</code>的作用：把一个对象解析为json字符串。通过对参数用<code>typeof()</code>比较我们知道，它是一个参数对象，直接传过去，后台会将它解析成键值对的形式，比如这样：<code>params1=value1&amp;params2%5B0%5D%5Bx%5D=1&amp;pparams2%5B0%5D%5By%5D=2&amp;params2%5B1%5D%5Bx%5D=3&amp;params2%5B1%5D%5By%5D=4</code>,而这样后台接受不了。因此必须用<code>JSON.stringify()</code>解析成</p>
+<pre><code>{
+  param1: value1,
+  param2:  [
+    {x: 1,y:2},
+    {x: 3,y:4}
+ ]
+}
+</code></pre><p>这样，我们就可以传复杂的对象参数给后台，后台接到然后用 <code>JSON.parse</code>还原就行啦。 进行还原就行能顺利接受~</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/10/26/fku/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Tc">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="我是TcV587">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/10/26/fku/" itemprop="url">
+                  fku
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-26T23:39:08+08:00">
+                2017-10-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/10/26/fku/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/10/26/fku/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>zzzz</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/10/26/发布、更新、撤销一个npm包/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -850,285 +1252,11 @@ npm publish     //上传到npm官网
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/22/2017-9-22/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Tc">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/uploads/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="我是TcV587">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/09/22/2017-9-22/" itemprop="url">
-                  2017.9.22
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-22T23:31:27+08:00">
-                2017-09-22
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/09/22/2017-9-22/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/09/22/2017-9-22/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="【这里应该是个标题但不知道说什么】"><a href="#【这里应该是个标题但不知道说什么】" class="headerlink" title="【这里应该是个标题但不知道说什么】"></a>【这里应该是个标题但不知道说什么】</h1><ol>
-<li>后台管理的，感觉有点挑战，实际上真正的挑战不多。前人种树，我去乘凉。</li>
-<li>基础还是需要基础打扎实，这决定上限。</li>
-<li>对新知识的学习不能止步。</li>
-<li>好好珍惜和经营自己的职业生涯，因为它可能下一秒就结束了。</li>
-<li>下周把后台管理v1.0完成，国庆回来直接测试上线，国庆后的第一个周末，不能加班。</li>
-<li>时隔多天，若我能见到，算了。</li>
-<li>周一再写吧，笔记在公司电脑。</li>
-<li>【这里应该是一段结束语但不想说】</li>
-</ol>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/08/29/2017-8-29/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Tc">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/uploads/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="我是TcV587">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/08/29/2017-8-29/" itemprop="url">
-                  2017.8.29
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-29T22:18:29+08:00">
-                2017-08-29
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/08/29/2017-8-29/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/08/29/2017-8-29/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>##1<br>html/css/js</p>
-<p>##2<br>vue.js</p>
-<p>##3<br>webpack/gulp</p>
-<p>##4<br>node.js</p>
-<p>##5<br>es6/ts</p>
-<p>##6<br>设计模式</p>
-<p>##7<br>git</p>
-<p>##8<br>canvas</p>
-<p>##9<br>浏览器兼容/性能优化</p>
-<p>##10<br>ps</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1173,7 +1301,7 @@ npm publish     //上传到npm官网
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">19</span>
+                <span class="site-state-item-count">21</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -1186,7 +1314,7 @@ npm publish     //上传到npm官网
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-count">10</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
